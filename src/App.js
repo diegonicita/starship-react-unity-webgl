@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import React from "react";
+import Unity, { UnityContext } from "react-unity-webgl";
+
+const unityContext = new UnityContext({
+  loaderUrl: "build/starship.loader.js",
+  dataUrl: "build/starship.data",
+  frameworkUrl: "build/starship.framework.js",
+  codeUrl: "build/starship.wasm",
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>    
+    <div className="wrapper">    
+      <h1>Spaceship</h1>
+      <div className="unity-container">
+      <Unity unityContext={unityContext} className="unity-canvas"/>      
+      </div>
     </div>
-  );
+    </>
+  
+    )
+
 }
 
 export default App;
