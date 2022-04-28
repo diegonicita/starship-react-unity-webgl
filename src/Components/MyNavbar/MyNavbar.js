@@ -15,9 +15,9 @@ function MyNavbar() {
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-        <Nav.Link as={NavLink} to="/" exact="true">Home</Nav.Link>
-        <Nav.Link as={NavLink} to="/starship">Starship</Nav.Link>
-        <Nav.Link as={NavLink} to="/sistema_de_cultivos">Sistema De Cultivos</Nav.Link>
+        <a className="nav-link" href="/">Home</a>
+        <a className="nav-link" href="/starship">Starship</a>
+        <a className="nav-link" href="/sistema_de_cultivos">Sistema De Cultivos</a>
       </Nav>
     </Navbar.Collapse>
   </Container>
