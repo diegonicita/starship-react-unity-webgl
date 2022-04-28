@@ -1,30 +1,21 @@
 import "./App.css"
 import React from "react";
-import Unity, { UnityContext } from "react-unity-webgl";
-import Navbar from "./Navbar";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home/Home";
+import Starship from "./Pages/Starship/Starship";
+import SistemaDeCultivos from "./Pages/SistemaDeCultivos/SistemaDeCultivos";
+import MyNavbar from "./Components/MyNavbar/MyNavbar";
 
-const unityContext = new UnityContext({
-  loaderUrl: "build/starship.loader.js",
-  dataUrl: "build/starship.data",
-  frameworkUrl: "build/starship.framework.js",
-  codeUrl: "build/starship.wasm",
-});
+function App() { 
 
-
-function App() {
   return (
     <>    
-    <Navbar></Navbar>
-    <div className="wrapper">              
-      <div className="unity-container m-4">
-      <Unity unityContext={unityContext} className="unity-canvas"/>      
-      </div>
-    </div>
-    <div className="text-center">
-      <button className="btn btn-primary btn-lg box-shadow--8dp m-2"> JUGAR </button>
-      <button className="btn btn-primary btn-lg box-shadow--8dp m-2"> TUTORIAL </button>
-      <button className="btn btn-primary btn-lg box-shadow--8dp m-2"> SALIR </button>
-    </div>
+    <MyNavbar />
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/starship" element={<Starship />}/>
+        <Route path="/sistema_de_cultivos" element={<SistemaDeCultivos />}/>
+      </Routes>
     </>
   
     )
