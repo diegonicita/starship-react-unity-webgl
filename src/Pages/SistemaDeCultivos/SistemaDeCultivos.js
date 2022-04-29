@@ -68,18 +68,21 @@ export default function SistemaDeCultivos() {
   }
 
   return (
-    <>
+    <div>     
     
     {isUnityMounted === true && (
     <>
       <div className="wrapper">        
-        <div className="unity-container m-4">
+        <div className="unity-container m-4 position-relative">
           <Unity unityContext={unityContext} className="unity-canvas" />
+          <button className="btn btn-danger btn-lg box-shadow--8dp m-2 position-absolute top-10 end-0"
+          onClick={() => handleOnClickUnMountUnity()}> X
+      </button>
         </div>                                    
       </div>
-
+      
       <div className="text-center">
-      <button
+      {/* <button
         className="btn btn-primary btn-lg box-shadow--8dp m-2"
         onClick={() => loadLevel()}>         
         JUGAR
@@ -88,16 +91,12 @@ export default function SistemaDeCultivos() {
         className="btn btn-primary btn-lg box-shadow--8dp m-2"
         onClick={() => toggleTutorial()}>          
         TUTORIAL
-      </button>
-      <button
-        className="btn btn-primary btn-lg box-shadow--8dp m-2"
-        onClick={() => handleOnClickUnMountUnity()}>          
-        DESMONTAR
-      </button>
+      </button> */}
+      
       {progression == 1 ? "" : <p>Loading {progression * 100} percent...</p>}
     </div> 
     </>
        )  }   
-    </>
+    </div>
   );
 }
