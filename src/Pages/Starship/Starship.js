@@ -75,7 +75,7 @@ export default function Starship() {
       <div className="wrapper">        
         <div className="unity-container m-4 position-relative">
           <Unity unityContext={unityContext} className="unity-canvas" />
-          <button className="btn btn-danger btn-lg box-shadow--8dp m-2 position-absolute top-10 end-0"
+          <button className="btn btn-danger btn-sm box-shadow--8dp m-2 position-absolute top-10 end-0"
           onClick={() => handleOnClickUnMountUnity()}> X
       </button>
         </div>                                    
