@@ -32,15 +32,24 @@ export default class Juego {
 
 constructor() 
 {
-this.player = { health: 0, score: 0, x: 0, y: 0 };
+
 this.carte = [];
 this.blockCommand = false;
 this.dungeon = {width : 10, height: 15}
-this.VISITED_ID = 0;
-this.TRAP_ID = 1;
-this.TREASURE_ID = 2;
-this.HEALTH_ID = 3;
-this.VISITED_IN_MAP = 20;
+this.player = { health: 0, score: 0, x: this.dungeon.width/2, y: this.dungeon.height/2};
+
+this.TRAP_ID = 0;
+this.CUBE0_ID = 0;
+this.CUBE1_ID = 1;
+this.CUBE2_ID = 2;
+this.CUBE3_ID = 3;
+this.CUBE4_ID = 4;
+this.WALL_ID = 5;
+this.HEALTH_ID = 6;
+this.TREASURE_ID = 7;
+this.EMPTY_ID = 100;
+
+this.EMPTY_IN_MAP = 20;
 this.HEALTH_IN_MAP = 10;
 this.TREASURES_IN_MAP = 38;
 }
@@ -107,11 +116,11 @@ initGame() {
   this.carte = [];  
   this.player.score = 0;
   this.player.health = 40;
-  this.player.x = 0;
-  this.player.y = 0;
-
+  
 //   updateHealth(this.player.health);
 //   updateScore(this.player.score);
+
+  // Trampas //
   
   for (let xx = 0; xx < this.dungeon.width; xx++) {    
     let a = [];
@@ -122,11 +131,24 @@ initGame() {
     this.carte.push(a);
   }
 
+  // WALLS //
+
+  for (let xx = 0; xx < this.dungeon.width; xx++) { 
+  this.carte[xx][0] = this.WALL_ID;
+  this.carte[xx][this.dungeon.height-1] = this.WALL_ID;
+  }
+  for (let yy = 0; yy < this.dungeon.height; yy++) { 
+    this.carte[0][yy] = this.WALL_ID;
+    this.carte[this.dungeon.width-1][yy] = this.WALL_ID;
+  }
+
+  // TESOROS //
+
   for (let i = 0; i < this.TREASURES_IN_MAP; i++) {
     let ready = false;
     while (!ready) {
-      let y = this.randomNumber(0, this.dungeon.height-1);
-      let x = this.randomNumber(0, this.dungeon.width-1);
+      let y = this.randomNumber(1, this.dungeon.height-2);
+      let x = this.randomNumber(1, this.dungeon.width-2);
       if (y === this.player.x && x === this.player.y) continue;
       if (this.carte[x][y] === this.TRAP_ID) {
         ready = true;
@@ -138,8 +160,8 @@ initGame() {
   for (let i = 0; i < this.HEALTH_IN_MAP; i++) {
     let ready = false;
     while (!ready) {
-      let y = this.randomNumber(0, this.dungeon.height-1);
-      let x = this.randomNumber(0, this.dungeon.width-1);
+      let y = this.randomNumber(1, this.dungeon.height-2);
+      let x = this.randomNumber(1, this.dungeon.width-2);
       if (y === this.player.x && x === this.player.y) continue;
       if (this.carte[x][y] === this.TRAP_ID) {
         ready = true;
@@ -148,20 +170,20 @@ initGame() {
     }
   }
 
-  for (let i = 0; i < this.VISITED_IN_MAP; i++) {
+  for (let i = 0; i < this.EMPTY_IN_MAP; i++) {
     let ready = false;
     while (!ready) {
-      let y = this.randomNumber(0, this.dungeon.height-1);
-      let x = this.randomNumber(0, this.dungeon.width-1);
+      let y = this.randomNumber(1, this.dungeon.height-2);
+      let x = this.randomNumber(1, this.dungeon.width-2);
       if (y === this.player.x && x === this.player.y) continue;
       if (this.carte[x][y] === this.TRAP_ID) {
         ready = true;
-        this.carte[x][y] = this.VISITED_ID;
+        this.carte[x][y] = this.EMPTY_ID;
       }
     }
   }
 
-  this.carte[this.player.x][this.player.y] = this.VISITED_ID;  
+  this.carte[this.player.x][this.player.y] = this.EMPTY_ID;  
 }
 
 // // Game Over //

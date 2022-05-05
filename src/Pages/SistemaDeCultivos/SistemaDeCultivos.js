@@ -75,20 +75,20 @@ export default function SistemaDeCultivos() {
     // Built-in event invoked when the Unity app is loaded.
   function handleOnUnityLoaded() {
     setIsLoaded(true);    
-    // createCube(0,0,0,20); 
-    // createCube(1,1,0,20); 
-    // createCube(2,2,0,20); 
-    // createCube(3,3,0,20);     
+    //  createCube(0,0,0,20); 
+    //  createCube(1,1,0,20); 
+    //  createCube(2,2,0,20); 
+    //  createCube(3,3,0,20);     
     const juego = new Juego();
     juego.initGame();    
     // console.log(juego.carte);
      juego.carte.forEach( (row, y) => {
-
        row.forEach( (col, x) => {
-         let altura = 10;
-         if (col == 0) altura = 5
-         if (col == 1) altura = 2
-         if (col == 2) altura = 15
+         let altura = 20;
+         if (col == 0) altura = 20
+         if (col == 1) altura = 20
+         if (col == 2) altura = 20
+         if (col == 3) altura = 20
          createCube( col, x, y-2, altura);
        })
      });
