@@ -109,7 +109,9 @@ export default function SistemaDeCultivos() {
     width: playerHealth + "%",
     ariaValuenow: playerHealth,
     ariaValuemin: "0",
-    ariaValuemax: "100"
+    ariaValuemax: "100",
+    zIndex: 100,
+    height: "100%"
     }
 
   return (
@@ -120,12 +122,16 @@ export default function SistemaDeCultivos() {
       <div className="wrapper">        
         <div className="unity-container m-4 position-relative">
           <Unity unityContext={unityContext} className="unity-canvas" />
-             <div className="progress" style={{height: '20px'}}>
-              <div className="progress-bar position-absolute" role="progressbar" style={progressBarStyleHealth}>Health {playerHealth}% score {score}</div>
-            </div>            
-            <button className="btn btn-danger btn-sm box-shadow--8dp m-2 position-absolute top-10 end-0"
-            onClick={() => handleOnClickUnMountUnity()}> X
-            </button>           
+          <div className="progress bg-dark position-absolute top-10 start-0" style={{marginLeft: "20%", height: '20px', zIndex: 100, width: "60%"}}>            
+            <div className="progress-bar bg-danger" role="progressbar" style={progressBarStyleHealth}></div>
+          </div>            
+          <div className="position-absolute start-0 text-white" style={{zIndex:200, right: "0px", top: "-3px"}}>Health {playerHealth}% - Score {score}
+          </div>
+            <button
+              className="btn btn-sm btn-danger box-shadow--8dp m-2 position-absolute" style={buttonStyleClose}
+              onClick={() => handleOnClickUnMountUnity()}>          
+              X
+            </button>                     
             <button
               className="btn btn-sm btn-primary box-shadow--8dp m-2 position-absolute" style={buttonStyleCapture}
               onClick={() => capture()}>         
@@ -155,19 +161,25 @@ export default function SistemaDeCultivos() {
 
 }
 
-const buttonStyleCapture = {
-  right: "15px", 
-  bottom: "40px"
+const buttonStyleRelease = {
+  right: "0px", 
+  bottom: "0px"
 };
 
-const buttonStyleRelease = {
-  right: "15px", 
-  bottom: "5px"
+const buttonStyleCapture = {
+  right: "0px", 
+  bottom: "35px"
 };
 
 const buttonStyleInit = {
-  right: "15px", 
-  bottom: "85px"
+  right: "0px", 
+  bottom: "70px"
+};
+
+const buttonStyleClose = {
+  right: "0px", 
+  top: "0px",
+  zIndex: 1000
 };
 
 const textStyle = {
