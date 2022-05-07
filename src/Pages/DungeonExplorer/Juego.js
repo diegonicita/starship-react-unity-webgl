@@ -115,7 +115,7 @@ initGame() {
 
   this.carte = [];  
   this.player.score = 0;
-  this.player.health = 40;
+  this.player.health = 100;
   
 //   updateHealth(this.player.health);
 //   updateScore(this.player.score);

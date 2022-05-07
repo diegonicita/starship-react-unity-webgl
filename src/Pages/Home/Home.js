@@ -9,7 +9,7 @@ export default function Home() {
       <div className="container"> 
         <div className="row hidden-md-up">
         <Cards imagen={imagen} titulo="Starship: Endgame" subtitulo="Juego de naves" texto="Un clasico aun vigente" enlace="/starship"/>        
-        <Cards imagen={imagen2} titulo="Sistema de Cultivos" subtitulo="Sistema de Cultivos" texto="Siembra y cosecha diferentes plantas" enlace="/sistema_de_cultivos"/>        
+        <Cards imagen={imagen2} titulo="Dungeon Explorer" subtitulo="Explorador de Laberintos" texto="Explora en busca de tesoros" enlace="/dungeon_explorer"/>        
         </div>
       </div>     
     </div>

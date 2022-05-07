@@ -3,7 +3,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Starship from "./Pages/Starship/Starship";
-import SistemaDeCultivos from "./Pages/SistemaDeCultivos/SistemaDeCultivos";
+import DungeonExplorer from "./Pages/DungeonExplorer/DungeonExplorer";
 import MyNavbar from "./Components/MyNavbar/MyNavbar";
 import Game from "./Components/Game/Game";
 
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/starship" element={<Starship />}/>
-        <Route path="/sistema_de_cultivos" element={<SistemaDeCultivos />}/>
+        <Route path="/dungeon_explorer" element={<DungeonExplorer />}/>
       </Routes>    
     </>
   
