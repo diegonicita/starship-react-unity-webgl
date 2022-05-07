@@ -22,16 +22,14 @@ export default function SistemaDeCultivos() {
     const [isUnityMounted, setIsUnityMounted] = React.useState(true);
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [playerPosition, setPlayerPosition] = React.useState({x: 0, y:0});
-    const [isGameOver, setIsGameOver] = React.useState(false);
-    const [userName, setUserName] = React.useState("");
-    const [score, setScore] = React.useState(0);
-
+    
+    const juego = new Juego();
+    
   React.useEffect(function () {
-    unityContext.on("GameOver", function (userName, score) {
-      setIsGameOver(true);
-      setUserName(userName);
-      setScore(score);
-      console.log("Evento");
+    unityContext.on("Choque", function (name, tipo, id) {
+      // console.log("Choque con " + name + " id: " + id + "tipo: " + tipo);
+      if (tipo != 5)
+      unityContext.send("CubeManager", "DeleteCube", id);
     });
   }, []);
   
@@ -51,11 +49,12 @@ export default function SistemaDeCultivos() {
     }, []);
   
     function capture() {
-      unityContext.send("MenuPrincipal", "CaptureKeyboard");
+      unityContext.send("MenuPrincipal", "CaptureKeyboard");      
+      initGame();
     }
 
     function release() {
-      unityContext.send("MenuPrincipal", "ReleaseKeyboard");
+      unityContext.send("MenuPrincipal", "ReleaseKeyboard");      
     }
   
     function handleOnClickUnMountUnity() {
@@ -74,28 +73,23 @@ export default function SistemaDeCultivos() {
 
     // Built-in event invoked when the Unity app is loaded.
   function handleOnUnityLoaded() {
-    setIsLoaded(true);    
-    //  createCube(0,0,0,20); 
-    //  createCube(1,1,0,20); 
-    //  createCube(2,2,0,20); 
-    //  createCube(3,3,0,20);     
-    const juego = new Juego();
-    juego.initGame();    
-    // console.log(juego.carte);
-     juego.carte.forEach( (row, y) => {
-       row.forEach( (col, x) => {
-         let altura = 20;
-         if (col == 0) altura = 20
-         if (col == 1) altura = 20
-         if (col == 2) altura = 20
-         if (col == 3) altura = 20
-         createCube( col, x, y-2, altura);
-       })
-     });
+    setIsLoaded(true);   
+    initGame();     
   }
 
   function handleOnUnityProgression(progression) {
     setProgression(progression);      
+  }
+
+  function initGame() {        
+     unityContext.send("CubeManager", "DeleteAllCubes");
+     juego.initGame();       
+     juego.carte.forEach( (row, y) => {
+       row.forEach( (col, x) => {
+         let altura = 20;               
+         if (col != 100) createCube( col, x, y-2, altura);
+       })
+     });
   }
 
   function createCube(tipo, x, y, altura)
@@ -125,6 +119,11 @@ export default function SistemaDeCultivos() {
         onClick={() => release()}>          
         Release Keyboard
       </button> 
+      <button
+        className="btn btn-sm btn-primary box-shadow--8dp m-2 position-absolute" style={buttonStyleInit}
+        onClick={() => initGame()}>          
+        Init
+      </button>
         <textarea className="position-absolute" style={textStyle}></textarea>      
         </div>                                    
       </div>
@@ -146,6 +145,11 @@ const buttonStyleCapture = {
 const buttonStyleRelease = {
   right: "15px", 
   bottom: "5px"
+};
+
+const buttonStyleInit = {
+  right: "15px", 
+  bottom: "85px"
 };
 
 const textStyle = {

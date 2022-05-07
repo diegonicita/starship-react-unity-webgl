@@ -142,6 +142,8 @@ initGame() {
     this.carte[this.dungeon.width-1][yy] = this.WALL_ID;
   }
 
+  this.carte[0][this.dungeon.height-10] = this.EMPTY_ID;
+
   // TESOROS //
 
   for (let i = 0; i < this.TREASURES_IN_MAP; i++) {
