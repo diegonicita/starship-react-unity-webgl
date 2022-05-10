@@ -7,6 +7,7 @@ import DungeonExplorer from "./Pages/DungeonExplorer/DungeonExplorer";
 import MyNavbar from "./Components/MyNavbar/MyNavbar";
 import io from "socket.io-client";
 
+// const socket = io.connect("http://localhost:8000");
 const socket = io.connect("https://diego-test-server.herokuapp.com");
 
 function App() {
