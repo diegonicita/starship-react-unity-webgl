@@ -14,7 +14,16 @@ function Chat() {
   const [chatMessages, setChatMessages] = React.useState([]);
 
   const joinRoom = () => {
-    socket.emit("join_room", 100);
+    const m = {
+      room: 100,
+      author: user,
+      message: "joined room",
+      time:
+        new Date(Date.now()).getHours() +
+        ":" +
+        new Date(Date.now()).getMinutes(),
+    };
+    socket.emit("join_room", m);
     setIsRoomSelected(true);
   };
 
@@ -35,13 +44,20 @@ function Chat() {
 
   React.useEffect(() => {
     console.log("useEffect");
-    socket.on("receive_message", (data) => {
-      // console.log("from useEffect: " + JSON.stringify(data.message));
+    socket.on("receive_message", (data) => {      
       setChatMessages((oldChatMessages) => [
         ...oldChatMessages,
         { author: data.author, message: data.message },
       ]);
     });
+
+    socket.on("have_joined_room", (data) => {    
+      setChatMessages((oldChatMessages) => [
+        ...oldChatMessages,
+        { author: data.author, message: data.message },
+      ]);
+    });
+
   }, [socket]);
 
   return (
@@ -49,9 +65,11 @@ function Chat() {
       <br />
       <label htmlFor="user" className="text-white"> Nombre: {" "}
         <input
+          autoComplete="off"
           type="text"
           id="user"
           value={user}
+          placeholder="Diego..."
           onChange={(event) => {
             setUser(event.target.value);
           }}
@@ -75,7 +93,9 @@ function Chat() {
           <label htmlFor="mensaje" className="text-white"> Mensaje {" "}
           <input
             type="text"
+            autoComplete="off"
             id="mensaje"
+            placeholder="Mensaje..."
             value={newMessage}
             onChange={(event) => {
               setNewMessage(event.target.value);
