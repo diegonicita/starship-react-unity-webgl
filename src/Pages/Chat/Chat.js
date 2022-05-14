@@ -99,6 +99,7 @@ function Chat() {
             onChange={(event) => {
               setNewMessage(event.target.value);
             }}
+            onKeyPress={ (event) => { event.key === "Enter" && sendNewMessage() }}
           ></input>
           <button onClick={sendNewMessage}> <IoMdSend /> </button>
           </label>                    
