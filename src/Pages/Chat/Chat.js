@@ -3,9 +3,8 @@ import React from "react";
 import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
-const socket = io.connect("http://localhost:8000");
-
-// const socket = io.connect("https://diego-test-server.herokuapp.com");
+// const socket = io.connect("http://localhost:8000");
+const socket = io.connect("https://diego-test-server.herokuapp.com");
 
 function Chat() {
   const [user, setUser] = React.useState("");
