@@ -3,8 +3,10 @@ import React from "react";
 import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
-var socket = undefined; 
+const endPoint = "http://localhost:8000";
 //const socket = io.connect("https://diego-test-server.herokuapp.com");
+
+var socket = io(endPoint); 
 
 function Chat() {
   const [user, setUser] = React.useState("");
@@ -14,6 +16,7 @@ function Chat() {
   const [chatMessages, setChatMessages] = React.useState([]);
 
   async function joinRoom() {
+    if (socket.connected == false) socket = io(endPoint); 
     if (user !== "")
     {
     const m = {
@@ -24,9 +27,7 @@ function Chat() {
         new Date(Date.now()).getHours() +
         ":" +
         new Date(Date.now()).getMinutes(),
-    };
-    socket = io("http://localhost:8000");    
-    // socket = io("https://diego-test-server.herokuapp.com");
+    };           
     socket.emit("join_room", m);    
     setIsRoomSelected(true);
     }
@@ -41,11 +42,10 @@ function Chat() {
         new Date(Date.now()).getHours() +
         ":" +
         new Date(Date.now()).getMinutes(),
-    };    
-    // socket = io("https://diego-test-server.herokuapp.com");
+    };        
     socket.close();
     setIsRoomSelected(false);
-    setChatMessages([]);
+    setChatMessages([]);    
     setUsersList([]);
   }
 
@@ -68,7 +68,7 @@ function Chat() {
   };
 
   React.useEffect(() => {
-    if (isRoomSelected) {
+    
       console.log("useEffect");
       socket.on("receive_message", (data) => {
         setChatMessages((oldChatMessages) => [
@@ -90,10 +90,9 @@ function Chat() {
       });
 
       socket.on("update_users_list", (data) => {
+        console.log("updating list");
         setUsersList(data);
-      });
-
-    }
+      });    
     
   }, [socket]);
 
