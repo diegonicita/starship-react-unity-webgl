@@ -3,8 +3,8 @@ import React from "react";
 import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
-const endPoint = "http://localhost:8000";
-//const socket = io.connect("https://diego-test-server.herokuapp.com");
+//const endPoint = "http://localhost:8000";
+const endPoint = "https://diego-test-server.herokuapp.com";
 
 var socket = io(endPoint); 
 
