@@ -8,6 +8,7 @@ var socket = undefined;
 
 function Chat() {
   const [user, setUser] = React.useState("");
+  const [usersList, setUsersList] = React.useState([]);
   const [isRoomSelected, setIsRoomSelected] = React.useState(false);
   const [newMessage, setNewMessage] = React.useState("");
   const [chatMessages, setChatMessages] = React.useState([]);
@@ -26,7 +27,7 @@ function Chat() {
     };
     socket = io("http://localhost:8000");    
     // socket = io("https://diego-test-server.herokuapp.com");
-    socket.emit("join_room", m);
+    socket.emit("join_room", m);    
     setIsRoomSelected(true);
     }
   }
@@ -45,6 +46,7 @@ function Chat() {
     socket.close();
     setIsRoomSelected(false);
     setChatMessages([]);
+    setUsersList([]);
   }
 
   const sendNewMessage = async () => {
@@ -86,13 +88,24 @@ function Chat() {
         console.log("error: " + error);
         setIsRoomSelected(false);        
       });
+
+      socket.on("update_users_list", (data) => {
+        setUsersList(data);
+      });
+
     }
     
   }, [socket]);
 
   return (
     <div style={chatContainer}>
-      <div style={leftColumn}>Users</div>
+      <div style={leftColumn}>Users      
+      {
+        <ul>
+        {usersList.map( (item, index) => <li key={index+100}> {item.user} </li>)}
+        </ul>
+      }      
+      </div>
       <div style={rightColumn}>Chat
     <div style={chatStyle}>
       <br />
