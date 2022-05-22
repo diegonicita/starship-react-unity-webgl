@@ -2,6 +2,7 @@ import React from 'react'
 import Unity, { UnityContext } from "react-unity-webgl";
 import { useNavigate } from "react-router-dom";
 import Juego from "./Juego.js"
+import io from "socket.io-client";
 
 const name = "build_sistema_de_cultivos/Build/build_sistema_de_cultivos";
 
@@ -15,16 +16,77 @@ const unityContext = new UnityContext({
       },
   });  
 
+const endPoint = "http://localhost:8000";
+// const endPoint = "https://diego-test-server.herokuapp.com";
+var socket;
+
 export default function SistemaDeCultivos() {
     
-    const [tutorialFlag, setTutorialFlag] = React.useState(false)
+    const [isRoomSelected, setIsRoomSelected] = React.useState(false); 
+    const [user, setUser] = React.useState("");
+    const [usersList, setUsersList] = React.useState([]);
+     
     const [progression, setProgression] = React.useState(0);
     const [isUnityMounted, setIsUnityMounted] = React.useState(true);
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [playerHealth, setPlayerHealth] = React.useState(100);
     const [score, setScore] = React.useState(0);
     
-    const juego = new Juego(); 
+    const juego = new Juego();     
+
+    async function joinRoom() {
+      if (!socket) socket = io(endPoint); 
+      if (user !== "")
+      {
+      const m = {
+        room: 101,
+        author: user,
+        message: "joined room",
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };           
+      socket.emit("join_room", m);    
+      setIsRoomSelected(true);
+      }
+    }
+
+    async function leftRoom() {
+      const m = {
+        room: 101,
+        author: user,
+        message: "left room",
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };        
+      socket.close();
+      setIsRoomSelected(false);
+      //setChatMessages([]);    
+      setUsersList([]);
+    }
+
+    React.useEffect(() => {
+    
+      console.log("useEffect Game");
+
+      if (socket && socket.connected)
+      {
+
+      socket.io.on("error", (error) => {
+        console.log("error: " + error);
+        setIsRoomSelected(false);        
+      });
+
+      socket.on("update_users_list", (data) => {
+        console.log("updating list");
+        setUsersList(data);
+      });    
+    }
+    
+  }, [socket]);
     
   React.useEffect(function () {
     unityContext.on("Choque", function (name, tipo, id) {
@@ -58,10 +120,13 @@ export default function SistemaDeCultivos() {
     function capture() {
       unityContext.send("MenuPrincipal", "CaptureKeyboard");      
       initGame();
+      setUser("Player");
+      joinRoom();
     }
 
     function release() {
-      unityContext.send("MenuPrincipal", "ReleaseKeyboard");      
+      unityContext.send("MenuPrincipal", "ReleaseKeyboard");  
+      console.log(socket.id);
     }
   
     function handleOnClickUnMountUnity() {

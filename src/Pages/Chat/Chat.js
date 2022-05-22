@@ -5,7 +5,6 @@ import { IoMdSend } from "react-icons/io";
 
 //const endPoint = "http://localhost:8000";
 const endPoint = "https://diego-test-server.herokuapp.com";
-
 var socket = io(endPoint); 
 
 function Chat() {
